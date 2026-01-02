@@ -1,3 +1,4 @@
+# Change DNS Nameserver temporarly
 Objetivo: Modificar temporalmente los dns de arch
 
 ```
