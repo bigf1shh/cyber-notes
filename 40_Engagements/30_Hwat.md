@@ -29,6 +29,8 @@ PORT      STATE SERVICE VERSION
 - Crear /modificar /borrar issues
 - Registrar / Login
 - No encontramos sql
+- Encontramos SQL gracias al código analizado en issuetracker.zip
+	- ==Podemos explotarlo para subir una shell a `/srv/http/test.php` mediante `select 'blabla' into outfile '/srv/http/test.php'`==
 Fuzzing
 - Register
 - Login
@@ -36,7 +38,8 @@ Fuzzing
 - Issue
 ## 30455 nginx
 - php 7.4.15 (phpinfo)
-- Tenemos XSS `http://192.168.197.147:30455/index.php?title=`
+	- ==We have a lot of information needed in phpinfo==
+- Tenemos XSS `http://192.168.228.147:30455/index.php?title=`
 - Fuzzing
 	- index.php
 	- phpinfo.php
