@@ -7,4 +7,6 @@ Exploitation
 Privilege Escalation
 - Check vulnerable services
 	- mysql running as root -> UDF
+- If system is using sqlite -> Search for sqlite files
+- if system is using a webserver -> Go compromise web server
 
