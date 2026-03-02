@@ -1,4 +1,3 @@
-Rachel te mato y te tiro al seto.
 ## Default Wordlists
 
 #### Passwords
