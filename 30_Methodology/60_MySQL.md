@@ -12,5 +12,5 @@ mysql -h <Hostname> -u root
 mysql -h <Hostname> -u root@localhost
 ```
 
-# [[80 Brute Force#^663ccd|Brute Force]]
+# [[30_Brute Force#^663ccd|Brute Force]]
 
