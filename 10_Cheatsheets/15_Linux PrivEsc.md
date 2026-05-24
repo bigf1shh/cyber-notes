@@ -44,4 +44,4 @@ If the system is vulnerable, it will respond with an error that starts with “s
 
 If the system is patched, it will respond with an error that starts with “usage:”
 
-https://blog.qualys.com/vulnerabilities-threat-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit||
+https://blog.qualys.com/vulnerabilities-threat-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit

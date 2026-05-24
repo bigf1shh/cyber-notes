@@ -64,7 +64,7 @@ Ajustes a realizar en la configuración de la máquina virtual (Arch) **antes** 
         
     - **Cache:** `Write back` (Mejora mucho la velocidad en Windows, pero ojo si se va la luz).
         
-    - **Discard:** ✅ Activado (SSD Emulation también).
+    - **Discard:** Activado (SSD Emulation también).
         
 2. **Red:** Modelo `VirtIO (paravirtualized)`. (Windows no detectará la red al instalar hasta que cargues el driver, tenlo en cuenta).
     

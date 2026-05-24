@@ -13,6 +13,12 @@
 	1. [[#^4b6cec|Steal cookies]]
 	2. [[#^23b051|Capture passwords]]
 	3. [[#^f561b4|Bypass CSRF protections]]
+
+Special chars
+```
+< > ' " { } ;
+```
+
 # DOM Based XSS
 
 ^d0ff74

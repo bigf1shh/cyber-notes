@@ -92,3 +92,10 @@ nxc smb <target> -u 'guest' -p '' --rid-brute
 # With Nulllinux
 python nullinux.py -U 'cicada.htb\guest' -P '' -users -range '100-2000' cicada-dc.cicada.htb
 ```
+
+### net view
+
+```powershell
+net view \\dc01 /all
+```
+
