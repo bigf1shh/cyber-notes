@@ -200,7 +200,10 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -T 10
 legba http.basic --username admin --password wordlists/passwords.txt --target http://localhost:8888/
 ```
-
+Definir hydra para usar un protocolo inseguro. definir los ciphers mediante variables de entorno.
+```
+HYDRA_PROXY_HTTP_CHOSEN_CIPHERS="DEFAULT@SECLEVEL=0" hydra -l admin -P dictionary.txt 192.168.1.136 https-get /backup/ -s 443 -f
+```
 ### HTTP - NTLM
 
 ```
