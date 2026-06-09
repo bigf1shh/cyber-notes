@@ -32,12 +32,42 @@ Registro de comandos
 # Resultado: EXITOSO. Puente HTTP plano -> HTTPS TLS1.0 activo en localhost:8080.
 ```
 
+Privesc
+```
+2026/06/01 18:52:26 CMD: UID=0     PID=932    | acpid -c /etc/acpi/events -s /var/run/acpid.socket
+
+cat /etc/monitoring-locations.conf
+/etc
+/bin
+/usr
+
+www-data@ctf:/etc/acpi$ ps aux | grep acpid
+root       932  0.0  0.0   4372  1376 ?        Ss   May24   0:00 acpid -c /etc/acpi/events -s /var/run/acpid.socket
+
+www-data@ctf:/etc/acpi$ ls -la
+total 16
+drwxr-xr-x  3 root root 4096 Sep 19  2016 .
+drwxr-xr-x 95 root root 4096 May 24 22:06 ..
+drwxr-xr-x  2 root root 4096 Sep 19  2016 events
+-rwxr-xr-x  1 root root 2423 Apr  3  2014 powerbtn.sh
+
+www-data@ctf:/etc/acpi$ ls -la events/
+total 12
+drwxr-xr-x 2 root root 4096 Sep 19  2016 .
+drwxr-xr-x 3 root root 4096 Sep 19  2016 ..
+-rw-r--r-- 1 root root  423 Apr  3  2014 powerbtn
+
+www-data@ctf:/etc/acpi$ ls -la /var/run/acpid.socket
+srw-rw-rw- 1 root root 0 May 24 22:06 /var/run/acpid.socket
+```
+
 ## Credenciales y Datos Encontrados
 ```
 Usuarios del Sistema: root, user, mysql
 Dominios: ctf.somedomain.com
 Pistas/Texto: Archivo user.txt reporta un total de 300USD. Posible patrón para contraseñas.
 ```
+
 
 ## Próximos Pasos
 ```
@@ -49,3 +79,6 @@ Pistas/Texto: Archivo user.txt reporta un total de 300USD. Posible patrón para 
 [] Fuerza bruta contra basic auth con user admin y rockyou-b64
 [x] port knocking con los valores que hemos encontrado ¿?¿?
 ```
+
+## Timeline
+
