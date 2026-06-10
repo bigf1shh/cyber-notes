@@ -1,0 +1,11 @@
+- **Si acabas de comprometer una máquina con credenciales de Administrador Local por WinRM/SMB:** Lanza primero **`netexec --sam`** y **`netexec --lsa`**. Es remoto, no toca el disco de la víctima con binarios ruidosos y te dará los hashes locales. Si ese hash local está reutilizado en otras máquinas del laboratorio, ya tienes movimiento lateral inmediato (_Pass-the-Hash_).
+```
+nxc ip -u user -p passwords --sam/--lsa
+```
+
+- **Si estás dentro de la máquina y sospechas que un Administrador de Dominio ha tocado ese equipo:** Ahí es donde necesitas interactuar con la memoria. Utiliza **Mimikatz** (o su equivalente en C#, _SharpMiniDump_, para no levantar alertas) para inspeccionar el LSASS. Si el Administrador de Dominio se conectó por RDP o dejó un proceso corriendo, su credencial estará en la RAM, no en la SAM.
+```
+mimikatz
+privilege::debug
+sekurlsa::logonpasswords
+```
