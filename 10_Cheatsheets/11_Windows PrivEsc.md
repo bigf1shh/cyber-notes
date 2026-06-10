@@ -154,6 +154,12 @@ net stop VulnService
 net start VulnService
 ```
 
+Or restart the machine
+
+```cmd
+shutdown /r /t 0 /f
+```
+
 ### Weak Service Binary Permissions
 
 ^d220dc
