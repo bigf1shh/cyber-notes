@@ -78,12 +78,12 @@ type C:\Users\dave\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\Conso
 
 ### Automated Enumeration
 
-
 ^b32349
 
 winpeas.exe
  [SharpUp](https://github.com/GhostPack/SharpUp) can enumerate the host for any misconfiguration-based opportunities.
 
+**En Windows:** Lanza **`Seatbelt.exe -group=user`** o **`PowerUp.ps1`**. Seatbelt analiza automáticamente el historial de PowerShell, los archivos desatendidos y el Autologon, y te los escupe en una sección limpia llamada `[+] ChromiumPrefX`, `[+] PowerShellHistory`, etc
 ## Windows Services
 
 ### Basic Info
