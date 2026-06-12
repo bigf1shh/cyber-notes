@@ -1,3 +1,9 @@
+- [[#Windows|Windows]]
+	- [[#Windows#Preparación del Servidor (Siempre en tu Kali)|Preparación del Servidor (Siempre en tu Kali)]]
+	- [[#Windows#Caso 1: Redirigir un puerto local de Windows hacia tu Kali (Tu necesidad actual)|Caso 1: Redirigir un puerto local de Windows hacia tu Kali (Tu necesidad actual)]]
+	- [[#Windows#Caso 2: Redirigir un puerto de un TERCER equipo de la red interna a tu Kali|Caso 2: Redirigir un puerto de un TERCER equipo de la red interna a tu Kali]]
+	- [[#Windows#Caso 3: Dynamic Port Forwarding (Crear un Proxy SOCKS5)|Caso 3: Dynamic Port Forwarding (Crear un Proxy SOCKS5)]]
+
 ## Windows
 
 ### Preparación del Servidor (Siempre en tu Kali)
