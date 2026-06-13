@@ -104,7 +104,7 @@ net stop mysql
 
 ### Service Binary Hijacking
 
-```
+```powershell
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 ```
 ### Unquoted Service Path

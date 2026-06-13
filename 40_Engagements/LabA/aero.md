@@ -15,5 +15,9 @@
 
 ## Ideas
 
+/home/stuart/.gnupg/pubring.kbx
+/opt/backup
+/home/stuart/.gnupg
+
 
 ## Steps

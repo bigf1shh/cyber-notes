@@ -4,8 +4,11 @@
 - [[#Interactive Logon|Interactive Logon]]
 	- [[#Interactive Logon#Forzar un Logon Type2 con RunasCS|Forzar un Logon Type2 con RunasCS]]
 	- [[#Interactive Logon#Tareas programadas locales|Tareas programadas locales]]
+	- [[#Interactive Logon#Resumen Táctico para el Examen|Resumen Táctico para el Examen]]
 - [[#Create Firewall Rule|Create Firewall Rule]]
-
+- [[#Ejecutar binario en memoria|Ejecutar binario en memoria]]
+- [[#Consultar versión de Powershell|Consultar versión de Powershell]]
+- [[#Execution Policy|Execution Policy]]
 
 ## Create Credential object
 
