@@ -8,6 +8,31 @@
 
 ## Enummeration
 
+```
+id
+cat /etc/passwd
+hostname
+cat /etc/issue
+cat /etc/os-release
+uname -a
+ps aux
+ip a
+routel
+ss -anp
+cat /etc/iptables/rules.v4
+ls -lah /etc/cron*
+crontab -l
+sudo crontab -l
+dpkg -l
+find / -writable -type d 2>/dev/null
+cat /etc/fstab
+mount
+lsblk
+lsmod
+/sbin/modinfo libata
+find / -perm -u=s -type f 2>/dev/null
+```
+
 ## Insecure File Permissions
 
 ## Insecure System Components
